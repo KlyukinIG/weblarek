@@ -1,21 +1,20 @@
 // src/components/api/AppApi.ts
 
-import { Api} from '../base/Api';
-import { IProduct, postRequestIOrder, IOrderResponse, getResponseIProduct } from '../../types';
+import { IProduct, PostRequestIOrder, IOrderResponse, GetResponseIProduct, IApi } from '../../types/index';
 
 export class AppApi {
-    private api: Api;
+    private api: IApi;
 
-    constructor(api: Api) {
+    constructor(api: IApi) {
         this.api = api;
     }
 
     async getProducts(): Promise<IProduct[]> {
-        const response = await this.api.get<getResponseIProduct>('/product/');
+        const response = await this.api.get<GetResponseIProduct>('/product/');
         return response.items;
     }
 
-    async postOrder(order: postRequestIOrder): Promise<IOrderResponse> {
+    async postOrder(order: PostRequestIOrder): Promise<IOrderResponse> {
         const response = await this.api.post<IOrderResponse>('/order', order);
         return response;
     }

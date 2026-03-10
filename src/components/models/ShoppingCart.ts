@@ -47,7 +47,6 @@ export class ShoppingCart {
     // Получение общей стоимости товаров
     getTotalPrice(): number {
         return this._items.reduce((total, item) => {
-            // Товары с ценой null считаем как 0 (бесценные товары нельзя купить)
             return total + (item.price || 0);
         }, 0);
     }

@@ -1,13 +1,13 @@
 export type ApiPostMethods = "POST" | "PUT" | "DELETE";
 
-export type TPayment = 'online' | 'cash';
+export type TPayment = "online" | "cash";
 
 export type TValidationErrors = {
-    payment?: string,
-    address?: string,
-    email?: string,
-    phone?: string
-}
+  payment?: string;
+  address?: string;
+  email?: string;
+  phone?: string;
+};
 
 export interface IApi {
   get<T extends object>(uri: string): Promise<T>;
@@ -32,4 +32,29 @@ export interface IBuyer {
   email: string;
   phone: string;
   address: string;
+}
+
+export interface GetResponseIProduct {
+  total: number;
+  items: IProduct[];
+}
+
+export interface PostRequestIOrder extends IBuyer {
+  id: string;
+  items: string[];
+}
+
+export interface IOrderResponse {
+  id: string;
+  total: number;
+}
+
+export interface IApi {
+  baseUrl: string;
+  get<T>(uri: string): Promise<T>;
+  post<T>(
+    uri: string,
+    data: object,
+    method?: "POST" | "PUT" | "DELETE",
+  ): Promise<T>;
 }
