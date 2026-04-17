@@ -1,6 +1,6 @@
 export type ApiPostMethods = "POST" | "PUT" | "DELETE";
 
-export type TPayment = "online" | "cash";
+export type TPayment = "online" | "cash" | "";
 
 export type TValidationErrors = {
   payment?: string;
@@ -40,7 +40,7 @@ export interface GetResponseIProduct {
 }
 
 export interface PostRequestIOrder extends IBuyer {
-  id: string;
+  id?: string;
   items: string[];
 }
 
@@ -58,3 +58,5 @@ export interface IApi {
     method?: "POST" | "PUT" | "DELETE",
   ): Promise<T>;
 }
+
+

@@ -1,16 +1,16 @@
 import { IProduct } from '../../types/index';
-import { EventEmitter } from '../base/Events';
+import { IEvents } from '../base/Events';
 
 export class ProductCatalog {
     private _items: IProduct[] = [];
     private _preview: string | null = null;
 
-    constructor(private events: EventEmitter) {}
+    constructor(private events: IEvents) {}
 
     // Сохранение массива товаров
     setItems(items: IProduct[]): void {
         this._items = items;
-        this.events.emit('items:changed', { items: this._items });
+        this.events.emit('catalog:changed');
     }
 
     // Получение массива всех товаров
@@ -26,7 +26,7 @@ export class ProductCatalog {
     // Сохранение товара для подробного отображения
     setPreview(id: string): void {
         this._preview = id;
-        this.events.emit('preview:changed', { id: this._preview });
+        this.events.emit('preview:changed');
     }
 
     // Получение товара для подробного отображения

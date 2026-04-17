@@ -1,5 +1,5 @@
 import { IBuyer, TPayment, TValidationErrors } from "../../types";
-import { EventEmitter } from "../base/Events";
+import { IEvents } from "../base/Events";
 
 export class Buyer {
   private _payment: TPayment | null = null;
@@ -7,7 +7,7 @@ export class Buyer {
   private _email: string = "";
   private _phone: string = "";
 
-  constructor(private events: EventEmitter) {}
+  constructor(private events: IEvents) {}
 
   // Универсальный метод для сохранения значения поля
   setField<K extends keyof IBuyer>(field: K, value: IBuyer[K]): void {
@@ -25,9 +25,7 @@ export class Buyer {
         this._phone = value as string;
         break;
     }
-    this.events.emit("buyer:changed", this.getData());
-    const errors = this.validate();
-    this.events.emit("buyer:validation", errors);
+    this.events.emit("order:changed");
   }
 
   // Получение всех данных покупателя
@@ -46,9 +44,7 @@ export class Buyer {
     this._address = "";
     this._email = "";
     this._phone = "";
-    this.events.emit("buyer:changed", this.getData());
-    const errors = this.validate();
-    this.events.emit("buyer:validation", errors);
+    this.events.emit("order:changed");
   }
 
   // Валидация данных
@@ -74,8 +70,6 @@ export class Buyer {
     if (!this._phone || this._phone.trim() === "") {
       errors.phone = "Укажите телефон";
     }
-
-    this.events.emit("buyer:validation", errors);
     return errors;
   }
 

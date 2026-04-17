@@ -1,10 +1,10 @@
 import { IProduct } from '../../types';
-import { EventEmitter } from '../base/Events';
+import { IEvents } from '../base/Events';
 
 export class ShoppingCart {
     private _items: IProduct[] = [];
 
-    constructor(private events: EventEmitter) {}
+    constructor(private events: IEvents) {}
 
     // Получение массива товаров в корзине
     getItems(): IProduct[] {
@@ -16,32 +16,20 @@ export class ShoppingCart {
         // Проверяем, есть ли уже такой товар в корзине
         if (!this.isInCart(item.id)) {
             this._items.push(item);
-            this.events.emit('cart:changed', { 
-                items: this._items,
-                count: this.getCount(),
-                total: this.getTotalPrice()
-            });
+            this.events.emit('basket:changed');
         }
     }
 
     // Удаление товара из корзины
     removeItem(itemId: string): void {
         this._items = this._items.filter(item => item.id !== itemId);
-        this.events.emit('cart:changed', { 
-            items: this._items,
-            count: this.getCount(),
-            total: this.getTotalPrice()
-        });
+        this.events.emit('basket:changed');
     }
 
     // Очистка корзины
     clear(): void {
         this._items = [];
-        this.events.emit('cart:changed', { 
-            items: this._items,
-            count: 0,
-            total: 0
-        });
+        this.events.emit('basket:changed');
     }
 
     // Получение общей стоимости товаров
