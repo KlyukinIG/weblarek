@@ -28,8 +28,7 @@ export class Basket extends Component<IBasketData> {
 
   set items(items: HTMLElement[]) {
     if (items.length === 0) {
-      this.listContainer.innerHTML =
-        '<li class="basket__item" style="text-align: center; justify-content: center;">Корзина пуста</li>';
+      this.listContainer.replaceChildren(...items)
       this.button.disabled = true;
     } else {
       this.listContainer.replaceChildren(...items);

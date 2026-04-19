@@ -21,55 +21,29 @@ export class ContactsForm extends Form<IContactsFormData> {
         
         this.emailInput = ensureElement<HTMLInputElement>('[name="email"]', this.container);
         this.phoneInput = ensureElement<HTMLInputElement>('[name="phone"]', this.container);
-        
-        this.updateValidState();
     }
     
-    protected onInputChange(event: Event): void {
-        const target = event.target as HTMLInputElement;
-        if (target.name === 'email' || target.name === 'phone') {
-            this.emitChange();
-        }
-    }
-    
-    private emitChange(): void {
-        this.updateValidState();
-        this.events.emit('contacts:change', {
+    protected onInputChange(): void {
+        this.events.emit('contacts:inputChanged', {
             email: this.emailInput.value,
             phone: this.phoneInput.value
         });
-    }
-    
-    private updateValidState(): void {
-        const emailValid = this.validateEmail(this.emailInput.value);
-        const phoneValid = this.validatePhone(this.phoneInput.value);
-        this.valid = emailValid && phoneValid;
-    }
-    
-    // Валидация email
-    private validateEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return email.trim() !== '' && emailRegex.test(email);
-    }
-    
-    // Валидация телефона
-    private validatePhone(phone: string): boolean {
-        const phoneRegex = /^[\d\s+()-]{10,}$/;
-        return phone.trim() !== '' && phoneRegex.test(phone);
     }
     
     protected onSubmit(): void {
-        this.events.emit('order:pay', {
-            email: this.emailInput.value,
-            phone: this.phoneInput.value
-        });
+        this.events.emit('order:pay');
     }
     
-    clear(): void {
-        this.emailInput.value = '';
-        this.phoneInput.value = '';
-        this.errors = '';
-        this.valid = false;
+    set email(value: string) {
+        this.emailInput.value = value;
+    }
+    
+    set phone(value: string) {
+        this.phoneInput.value = value;
+    }
+    
+    set isValid(value: boolean) {
+        this.valid = value;
     }
     
     setErrors(errors: { email?: string; phone?: string }): void {
@@ -77,6 +51,5 @@ export class ContactsForm extends Form<IContactsFormData> {
         if (errors.email) errorMessages.push(errors.email);
         if (errors.phone) errorMessages.push(errors.phone);
         this.errors = errorMessages.join(', ');
-        this.updateValidState();
     }
 }

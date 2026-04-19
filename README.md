@@ -202,19 +202,11 @@ Presenter - презентер содержит основную логику п
 Поля класса:
 `titleElement: HTMLElement` — элемент с названием товара
 `priceElement: HTMLElement` — элемент с ценой
-`categoryElement?: HTMLElement` — элемент с категорией (опционально)
-`imageElement?: HTMLImageElement` — элемент с изображением (опционально)
 `buttonElement?: HTMLButtonElement` — кнопка действия (опционально)
-`descriptionElement?: HTMLElement` — элемент с описанием (опционально)
-`indexElement?: HTMLElement` — элемент с индексом для корзины (опционально)
 
 Методы класса: 
 `title(value: string)` — устанавливает название
 `price(value: number | null)` — устанавливает цену (если null, отображает "Бесценно" и блокирует кнопку)
-`category(value: string)` — устанавливает категорию и добавляет соответствующий CSS-класс
-`image(value: string)` — устанавливает изображение
-`description(value: string)` — устанавливает описание
-`index(value: number)` — устанавливает индекс (для корзины)
 `disableButton()` — блокирует кнопку и устанавливает текст "Недоступно"
 
 #### Класс CardCatalog 
@@ -223,29 +215,43 @@ Presenter - презентер содержит основную логику п
 Конструктор:
 `constructor(container: HTMLElement, events: IEvents, id: string)` — принимает DOM-элемент, брокер событий и id товара.
 
-Генерируемые события:
-`card:select` — при клике на карточку (передаёт объект { id: string })
+Поля класса:
+`categoryElement: HTMLElement` — элемент с категорией 
+`imageElement: HTMLImageElement` — элемент с изображением 
+
+Мтоды класса:
+`category(value: string)` — устанавливает категорию и добавляет соответствующий CSS-класс
+`image(value: string)` — устанавливает изображение
 
 #### Класс CardPreview
 Карточка товара для отображения в модальном окне (превью).
+
+Поля класса:
+`categoryElement: HTMLElement` — элемент с категорией 
+`imageElement: HTMLImageElement` — элемент с изображением 
+`descriptionElement?: HTMLElement` — элемент с описанием 
 
 Конструктор:
 `constructor(container: HTMLElement, events: IEvents, id: string)` — принимает DOM-элемент, брокер событий и id товара.
 
 Методы класса: 
+`category(value: string)` — устанавливает категорию и добавляет соответствующий CSS-класс
+`image(value: string)` — устанавливает изображение
+`description(value: string)` — устанавливает описание
 `buttonState(inCart: boolean)` — устанавливает текст кнопки: "Купить" или "Удалить из корзины"
-
-Генерируемые события:
-`card:buy` — при клике на кнопку (передаёт объект { id: string })
 
 #### Класс CardBasket
 Карточка товара для отображения в корзине.
 
+Поля класса:
+`indexElement: HTMLElement` — элемент с индексом для корзины 
+`descriptionElement?: HTMLElement` — элемент с описанием 
+
 Конструктор:
 `constructor(container: HTMLLIElement, events: IEvents, id: string)` — принимает DOM-элемент, брокер событий и id товара.
 
-Генерируемые события:
-`basket:remove` — при клике на кнопку удаления (передаёт объект { id: string })
+Методы класса:
+`index(value: number)` — устанавливает индекс (для корзины)
 
 #### Класс Gallery
 Компонент для отображения каталога товаров.

@@ -1,11 +1,11 @@
+// src/components/view/form/Form.ts
+
 import { Component } from "../../base/Component";
 import { ensureElement } from "../../../utils/utils";
-
 
 export abstract class Form<T> extends Component<T> {
     protected submitButton: HTMLButtonElement;
     protected errorsContainer: HTMLElement;
-    protected _valid: boolean = false;
     
     constructor(protected container: HTMLFormElement) {
         super(container);
@@ -15,27 +15,23 @@ export abstract class Form<T> extends Component<T> {
         
         this.container.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (this._valid) {
-                this.onSubmit();
-            }
+            this.onSubmit();
         });
         
-        this.container.addEventListener('input', (e) => {
-            this.onInputChange(e);
+        this.container.addEventListener('input', () => {
+            this.onInputChange();
         });
     }
     
-    protected abstract onInputChange(event: Event): void;
+    protected abstract onInputChange(): void;
     protected abstract onSubmit(): void;
     
+
     set errors(value: string) {
         this.errorsContainer.textContent = value;
     }
     
     set valid(value: boolean) {
-        this._valid = value;
         this.submitButton.disabled = !value;
     }
-    
-    abstract clear(): void;
 }

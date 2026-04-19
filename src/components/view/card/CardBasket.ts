@@ -1,19 +1,27 @@
 // src/components/view/card/CardBasket.ts
-import { Card } from "./Card";
-import { IEvents } from "../../base/Events";
+
+import { Card, ICardActions } from "./Card";
+import { ensureElement } from "../../../utils/utils";
 
 export class CardBasket extends Card {
-    private deleteButton?: HTMLButtonElement;
+    protected indexElement: HTMLElement;
+    protected deleteButton: HTMLButtonElement;
     
-    constructor(container: HTMLLIElement,private events: IEvents,private id: string) {
+    constructor(
+        container: HTMLLIElement,
+        actions?: ICardActions
+    ) {
         super(container as HTMLElement);
         
-        this.deleteButton = this.container.querySelector('.basket__item-delete') || undefined;
+        this.indexElement = ensureElement<HTMLElement>('.basket__item-index', this.container);
+        this.deleteButton = ensureElement<HTMLButtonElement>('.basket__item-delete', this.container);
         
-        if (this.deleteButton) {
-            this.deleteButton.addEventListener('click', () => {
-                this.events.emit('basket:remove', { id: this.id });
-            });
+        if (actions?.onClick) {
+            this.deleteButton.addEventListener('click', actions.onClick);
         }
+    }
+    
+    set index(value: number) {
+        this.indexElement.textContent = String(value);
     }
 }

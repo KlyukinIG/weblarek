@@ -31,7 +31,7 @@ export class Buyer {
   // Получение всех данных покупателя
   getData(): IBuyer {
     return {
-      payment: this._payment || "online", // Значение по умолчанию
+      payment: this._payment || "", 
       address: this._address,
       email: this._email,
       phone: this._phone,
@@ -71,16 +71,5 @@ export class Buyer {
       errors.phone = "Укажите телефон";
     }
     return errors;
-  }
-
-  // Проверка валидности всех данных
-  isValid(): boolean {
-    return Object.keys(this.validate()).length === 0;
-  }
-
-  // Получение ошибок для конкретного поля
-  getFieldError(field: keyof IBuyer): string | null {
-    const errors = this.validate();
-    return errors[field] || null;
   }
 }
